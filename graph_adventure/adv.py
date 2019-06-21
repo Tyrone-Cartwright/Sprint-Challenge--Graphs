@@ -51,6 +51,39 @@ def oppositeDir(dir):
             else:
                     return 'w'
 
+# traverse rooms
+def marked_room(direction, id):
+        path.append(direction)
+        prev_room_id = id
+        player.travel(direction)
+        traversalPath.append(direction)
+
+        updateNewGraph(prev_room_id, player.currentRoom.id, direction)
+
+        if direction in player.currentRoom.getExits():
+                marked_room(direction, player.currentRoom.id)
+        elif len(player.currentRoom.getExits()) > 1 and '?' in graph[player.currentRoom.id].values():
+                extraExits(player.currentRoom.id)
+        else:
+                opp_path = path.pop()
+                checkPrevRoom(oppositeDir(opp_path))
+
+# updates graph with room info
+def updateNewGraph(prevID, currentID, direction):
+        # if player moved to a new room, add blank graph
+        if currentID not in graph:
+                appendToGraph(currentID, player.currentRoom.getExits())
+
+        # update graph values info from curr room we came from
+        for key, value in graph[currentID].items():
+                if key == oppositeDir(direction):
+                    graph[currentID][key] = prevID
+
+# check if any other directions we can go from curr room
+def extraExits(roomID):
+        
+
+
 
 
 
