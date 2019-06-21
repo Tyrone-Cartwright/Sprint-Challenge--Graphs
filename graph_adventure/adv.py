@@ -21,7 +21,37 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+# will keep track of path taken
+traversalPath = []
+# used to map our maze
+graph = {}
+# keeps track of currently walked path
+# used to walk back
+path = []
+
+# appends graph with correct amt of exits
+# excludes non-existent exits
+def appendToGraph(roomId, exits):
+        temp = {}
+        for i in exits:
+            temp.update({i: '?'})
+        graph[roomId] = temp
+
+# sets initial graph values
+appendToGraph(player.currentRoom.id, player.currentRoom.getExits())
+
+# returns the opposite dir
+def oppositeDir(dir):
+            if dir == 'n':
+                return 's'
+            elif dir == 's':
+                return 'n'
+            elif dir == 'w':
+                return 'e'
+            else:
+                    return 'w'
+
+
 
 
 # TRAVERSAL TEST
